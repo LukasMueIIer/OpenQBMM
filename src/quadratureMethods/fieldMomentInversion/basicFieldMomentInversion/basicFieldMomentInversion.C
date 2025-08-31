@@ -96,7 +96,6 @@ Foam::basicFieldMomentInversion::basicFieldMomentInversion
         }
         else
         {
-            //label nMomentsMinusOne = momentOrders.size() - 1;
             label nMainNodes = momentOrders.size()/2;
 
             nAdditionalQuadraturePoints_ = nodeIndexes.size() - nMainNodes;

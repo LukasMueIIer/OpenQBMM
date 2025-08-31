@@ -134,8 +134,26 @@ void Foam::generalizedMomentInversion::calcNQuadratureNodes
         nNodes_ = nRegularQuadratureNodes_;
     }
     
-    abscissae_.setSize(nMaxNodes_);
+    // Resize list of weights and abscissae
+    // Note: the lists for the alpha and beta coefficients of the recurrence
+    //       relationship do NOT need to be resized because they are allocated
+    //       with the correct size in the constructor of univariateMomentSet.
     weights_.setSize(nMaxNodes_);
+    abscissae_.setSize(nMaxNodes_);
+    
+
+    // Resize list of zeta_k, if needed (the resize method in OpenFOAM checks
+    // if resizing is necessary or if the desired size equals the current one)
+    if (moments.support() == "RPlus" || moments.support() == "01")
+    {
+        moments.zetas().resize(2*nMaxNodes_ - 1, 0.0);
+    }
+
+    // Resize list of canonical moments
+    if (moments.support() == "01")
+    {
+        moments.canonicalMoments().resize(2*nMaxNodes_ - 1);
+    }
 
     #ifdef FULLDEBUG
         Info << "nMaxNodes = " << nMaxNodes_ << endl
@@ -215,7 +233,7 @@ void Foam::generalizedMomentInversion::correctRecurrenceRPlus
         return; // Use Gauss if no additional nodes are possible 
     }
 
-    moments.zetas().resize(2*nMaxNodes_ - 1, 0.0);
+    //moments.zetas().resize(2*nMaxNodes_ - 1, 0.0);
 
     // Take a reference to zetas and use it instead than 
     // accessing moments.zetas() directly.
@@ -314,11 +332,11 @@ void Foam::generalizedMomentInversion::correctRecurrence01
     }
     
     // We do not store z0 = 1, so we have 2*nRegularQuadratureNodes_ - 1 zetas
-    moments.zetas().resize(2*nMaxNodes_ - 1);
+    //moments.zetas().resize(2*nMaxNodes_ - 1);
 
     // We do not store p0, so canonicalMoments[0] = p1, which means that
     // we have 2*nRegularQuadratureNodes_ - 1 canonical moments
-    moments.canonicalMoments().resize(2*nMaxNodes_ - 1);
+    //moments.canonicalMoments().resize(2*nMaxNodes_ - 1);
 
     scalarList& zetas(moments.zetas());
     scalarList& canonicalMoments(moments.canonicalMoments());
