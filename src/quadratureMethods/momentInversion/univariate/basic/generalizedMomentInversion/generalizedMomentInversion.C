@@ -91,6 +91,10 @@ void Foam::generalizedMomentInversion::correctRecurrence
 {
     const word& support = moments.support();
 
+    #ifdef FULLDEBUG
+        Info << "Support = " << support << endl;
+    #endif
+
     if (support == "R")
     {
         correctRecurrenceR(alpha, beta);
