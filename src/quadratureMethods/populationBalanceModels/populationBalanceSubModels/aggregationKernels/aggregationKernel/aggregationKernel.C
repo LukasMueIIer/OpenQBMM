@@ -146,9 +146,9 @@ Foam::populationBalanceSubModels::aggregationKernel::aggregationSource
 
     const labelList& scalarIndexes = nodes[0].scalarIndexes();
 
-    forAll(nodes, pNode1i)
+    forAll(nodes, node1i)
     {
-        const volScalarNode &node1 = nodes[pNode1i];
+        const volScalarNode &node1 = nodes[node1i];
         const volScalarField &pWeight1 = node1.weight();
         const PtrList<volScalarField> &pAbscissae1 = node1.abscissae();
 
@@ -160,9 +160,9 @@ Foam::populationBalanceSubModels::aggregationKernel::aggregationSource
 
         scalar aSourcei = 0.0;
 
-        forAll(nodes, pNode2i)
+        forAll(nodes, node2i)
         {
-            const volScalarNode &node2 = nodes[pNode2i];
+            const volScalarNode &node2 = nodes[node2i];
             const volScalarField &pWeight2 = node2.weight();
 
             // Remove SMALL negative values in abscissae
@@ -242,9 +242,9 @@ Foam::populationBalanceSubModels::aggregationKernel::aggregationSource
 
     if (!pureSize())   // Ka is not only a function of size
     {
-        forAll(nodes, pNode1i)
+        forAll(nodes, node1i)
         {
-            const volVelocityNode& node1 = nodes[pNode1i];
+            const volVelocityNode& node1 = nodes[node1i];
             scalar pWeight1 = node1.weight()[celli];
 
             scalar bAbscissa1 =
@@ -256,9 +256,9 @@ Foam::populationBalanceSubModels::aggregationKernel::aggregationSource
 
             scalar aSourcei = 0.0;
 
-            forAll(nodes, pNode2i)
+            forAll(nodes, node2i)
             {
-                const volVelocityNode& node2 = nodes[pNode2i];
+                const volVelocityNode& node2 = nodes[node2i];
                 scalar pWeight2 = node2.weight()[celli];
 
                 scalar bAbscissa2 =
@@ -360,16 +360,16 @@ Foam::populationBalanceSubModels::aggregationKernel::aggregationSource
         }
     }
 
-    forAll(nodes, pNode1i)
+    forAll(nodes, node1i)
     {
-        const volVelocityNode &node1 = nodes[pNode1i];
-        label sizei = quadrature.nodeIndexes()[pNode1i][sizeIndex];
+        const volVelocityNode &node1 = nodes[node1i];
+        label sizei = quadrature.nodeIndexes()[node1i][sizeIndex];
         scalar aSourcei = 0.0;
 
-        forAll(nodes, pNode2i)
+        forAll(nodes, node2i)
         {
-            const volVelocityNode &node2 = nodes[pNode2i];
-            label sizej = quadrature.nodeIndexes()[pNode2i][sizeIndex];
+            const volVelocityNode &node2 = nodes[node2i];
+            label sizej = quadrature.nodeIndexes()[node2i][sizeIndex];
 
             aSourcei +=
                 node1.weight()[celli]*node2.weight()[celli]

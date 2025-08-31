@@ -139,9 +139,9 @@ Foam::populationBalanceSubModels::breakupKernel::breakupSource
 
     const labelList& scalarIndexes = nodes[0].scalarIndexes();
 
-    forAll(nodes, pNodei)
+    forAll(nodes, nodei)
     {
-        const volScalarNode &node = nodes[pNodei];
+        const volScalarNode &node = nodes[nodei];
 
         scalar bAbscissa =
             max(node.abscissae()[sizeIndex][celli], scalar(0));
@@ -258,10 +258,10 @@ Foam::populationBalanceSubModels::breakupKernel::breakupSource
         }
     }
 
-    forAll(nodes, pNodei)
+    forAll(nodes, nodei)
     {
-        const volVelocityNode &node = nodes[pNodei];
-        label sizei = quadrature.nodeIndexes()[pNodei][sizeIndex];
+        const volVelocityNode &node = nodes[nodei];
+        label sizei = quadrature.nodeIndexes()[nodei][sizeIndex];
 
         scalar bSourcei = node.weight()[celli] * bSources[sizei];
 

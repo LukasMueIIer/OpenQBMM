@@ -151,9 +151,9 @@ void Foam::moment<fieldType, nodeType>::update()
     const labelList &scalarIndexes = nodes[0].scalarIndexes();
     const labelList &velocityIndexes = nodes[0].velocityIndexes();
 
-    forAll(nodes, pNodei)
+    forAll(nodes, nodei)
     {
-        const nodeType &node = nodes[pNodei];
+        const nodeType &node = nodes[nodei];
         fieldType m = node.weight();
 
         for (label cmpt = 0; cmpt < scalarIndexes.size(); cmpt++)
@@ -197,9 +197,9 @@ void Foam::moment<fieldType, nodeType>::updateBoundaries()
     {
         this->boundaryFieldRef()[patchi] = Zero;
 
-        forAll(nodes, pNodei)
+        forAll(nodes, nodei)
         {
-            const nodeType &node = nodes[pNodei];
+            const nodeType &node = nodes[nodei];
             scalarField m(node.weight().boundaryField()[patchi]);
 
             for (label cmpt = 0; cmpt < scalarIndexes.size(); cmpt++)
@@ -239,9 +239,9 @@ void Foam::moment<fieldType, nodeType>::updateLocalMoment(label elemi)
     const labelList &scalarIndexes = nodes[0].scalarIndexes();
     const labelList &velocityIndexes = nodes[0].velocityIndexes();
 
-    forAll(nodes, pNodei)
+    forAll(nodes, nodei)
     {
-        const nodeType &node = nodes[pNodei];
+        const nodeType &node = nodes[nodei];
         scalar m = node.weight()[elemi];
 
         for (label cmpt = 0; cmpt < scalarIndexes.size(); cmpt++)
