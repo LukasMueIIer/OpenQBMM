@@ -29,7 +29,8 @@ momentAdvection
 
     basicMomentInversion
     {
-        univariateMomentInversion Gauss;
+        univariateMomentInversion GQMOM;
+        ndfTypeRPlus lognormal; // Keep consistent with the setting above
     }
 }
 
