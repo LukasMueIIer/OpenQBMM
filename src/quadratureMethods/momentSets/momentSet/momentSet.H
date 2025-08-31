@@ -72,10 +72,12 @@ protected:
         //- Type of support of the measure associated to the moment set
         word support_;
 
-        //- Minimum accepted value for m0
+        //- Minimum value for the zero-order moment.
+        // Below this value, the moment is considered negligible.
         scalar smallM0_;
 
-        //- Minimum accepted value for zeta
+        //- Minimum value for zeta_k.
+        // Below this value, zeta_k is considered negligible.
         scalar smallZeta_;
 
 
