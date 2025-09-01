@@ -95,7 +95,23 @@ void Foam::Vandermonde::solve
     scalarDiagonalMatrix& x,
     const scalarDiagonalMatrix& source
 )
-{
+{ 
+    if (source.size() != n_)
+    {
+        FatalErrorInFunction
+            << "Source vector size (" << source.size() 
+            << ") does not match matrix size (" << n_ << ")" << nl
+            << abort(FatalError);
+    }
+
+    if (x.size() != n_)
+    {
+        FatalErrorInFunction
+            << "Solution vector size (" << x.size() 
+            << ") does not match matrix size (" << n_ << ")" << nl
+            << abort(FatalError);
+    }
+
     if (n_ == 1)
     {
         x[0] = source[0];
@@ -133,6 +149,14 @@ void Foam::Vandermonde::solve
             r = c[j] + r*xi;
             s += r*source[j - 1];
             t = r + t*xi;
+        }
+
+        // Check for nearly singular conditions
+        if (mag(t) < VSMALL)
+        {
+            FatalErrorInFunction
+                << "Near-singular Vandermonde matrix detected" << nl
+                << abort(FatalError);
         }
 
         x[i] = s / t;

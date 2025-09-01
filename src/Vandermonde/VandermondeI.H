@@ -30,7 +30,7 @@ License
 
 // * * * * * * * * * * * * * * * Member Operators  * * * * * * * * * * * * * //
 
-Foam::scalarSquareMatrix Foam::Vandermonde::operator()()
+Foam::scalarSquareMatrix Foam::Vandermonde::operator()() const
 {
     scalarSquareMatrix tmpV(n_);
 
@@ -54,7 +54,7 @@ Foam::scalarSquareMatrix Foam::Vandermonde::operator()()
     return tmpV;
 }
 
-Foam::scalar Foam::Vandermonde::operator()(label i, label j)
+Foam::scalar Foam::Vandermonde::operator()(label i, label j) const
 {
     #ifdef FULLDEBUG
     if (i >= n_ || j >= n_ || i < 0 || j < 0)
@@ -78,11 +78,12 @@ Foam::scalar Foam::Vandermonde::operator()(label i, label j)
     }
 
     // Compute element using iterative calculation of integer power
-    scalar result = (*this)[j];
-
-    for (label k = 1; k < i; k++)
+    const scalar base = (*this)[j];
+    scalar result = 1.0;
+    
+    for (label k = 0; k < i; k++)
     {
-        result *= (*this)[j];
+        result *= base;
     }
     
     return result;

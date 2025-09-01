@@ -31,7 +31,7 @@ Class
 
 Description
     Stores the second row of a Vandermonde matrix, and solves the associated
-    linear system.
+    linear system. 
 
     References
     \verbatim
@@ -115,10 +115,10 @@ public:
     // Member Operators
 
         //- Return the Vandermonde matrix
-        inline scalarSquareMatrix operator()();
+        inline scalarSquareMatrix operator()() const;
 
         //- Return a given element of the Vandermonde matrix
-        inline scalar operator()(label i, label j);
+        inline scalar operator()(label i, label j) const;
 };
 
 
