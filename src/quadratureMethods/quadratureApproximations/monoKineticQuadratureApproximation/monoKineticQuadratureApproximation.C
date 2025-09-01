@@ -593,7 +593,7 @@ void Foam::monoKineticQuadratureApproximation::updateLocalVelocities
             if
             (
                 nodes_()[nodei].weight()[celli] > minM0_
-                && nodes_()[nodei].abscissae()[0][celli] > SMALL
+             && nodes_()[nodei].abscissae()[0][celli] > SMALL
             )
             {
                 nonZeroNodes[nodei] = true;
