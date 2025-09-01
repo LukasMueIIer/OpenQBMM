@@ -360,18 +360,15 @@ void Foam::monoKineticQuadratureApproximation::updateBoundaryVelocities()
                 forAll(nodes_(), nodei)
                 {
                     // Check if bubble moments are large enough.
-                    //  If yes make matricies 1 component larger,
+                    //  If yes make matrices 1 component larger,
                     //  if no the rest of the nodes are assumed to
                     //  be too SMALL as well.
-                    //  This is done to avoid a divide by 0 error,
-                    //  and to reduce unneeded computation time
+                    //  This is done to avoid a division by zero,
+                    //  and to reduce computational time.
                     if
                     (
-                        nodes_()[nodei].weight().boundaryField()[patchi][facei]
-                      > minM0_
-                     &&
-                        nodes_()[nodei].abscissae()[0].boundaryField()[patchi][facei]
-                      > SMALL
+                        nodes_()[nodei].weight().boundaryField()[patchi][facei] > minM0_
+                     && nodes_()[nodei].abscissae()[0].boundaryField()[patchi][facei] > SMALL
                     )
                     {
                         nonZeroNodes[nodei] = true;
@@ -383,6 +380,7 @@ void Foam::monoKineticQuadratureApproximation::updateBoundaryVelocities()
             if (nNonZeroNodes == 1)
             {
                 label index = -1;
+
                 forAll(nonZeroNodes, nodei)
                 {
                     if (nonZeroNodes[nodei])
@@ -391,6 +389,7 @@ void Foam::monoKineticQuadratureApproximation::updateBoundaryVelocities()
                         break;
                     }
                 }
+
                 velocityAbscissae_[index].boundaryFieldRef()[patchi][facei] =
                     velocityMoments_[1].boundaryField()[patchi][facei]
                    /(
@@ -404,6 +403,7 @@ void Foam::monoKineticQuadratureApproximation::updateBoundaryVelocities()
                 scalarSquareMatrix invR(nNonZeroNodes, Zero);
                 scalarDiagonalMatrix x(nNonZeroNodes, Zero);
                 label nodej = 0;
+
                 for (label nodei = 0; nodei < nNodes_; nodei++)
                 {
                     if (nonZeroNodes[nodei])
@@ -428,6 +428,7 @@ void Foam::monoKineticQuadratureApproximation::updateBoundaryVelocities()
                 {
                     scalarRectangularMatrix Upcmpt(nNonZeroNodes, 1, Zero);
                     label nodej = 0;
+
                     for (label nodei = 0; nodei < nNodes_; nodei++)
                     {
                         if (nonZeroNodes[nodei])
@@ -442,6 +443,7 @@ void Foam::monoKineticQuadratureApproximation::updateBoundaryVelocities()
                     // Compute U_{\alpha} cmptI component using invVR matrix
                     scalarRectangularMatrix Ucmpt = invVR*Upcmpt;
                     nodej = 0;
+
                     for (label nodei = 0; nodei < nNodes_; nodei++)
                     {
                         if (nonZeroNodes[nodei])
@@ -478,22 +480,14 @@ void Foam::monoKineticQuadratureApproximation::updateAllQuadrature()
     {
         //- Make sure moments are below 0 before checking if they
         //  are SMALL enough to be neglected
-        if
-        (
-            m0[celli] < 0
-         && mag(m0[celli]) < minM0_
-        )
+        if (m0[celli] < 0 && mag(m0[celli]) < minM0_)
         {
             forAll(moments_, mi)
             {
                 moments_[mi][celli] = Zero;
             }
         }
-        else if
-        (
-            moments_[1][celli] < 0
-         && mag(moments_[1][celli]) < minM1_
-        )
+        else if (moments_[1][celli] < 0 && mag(moments_[1][celli]) < minM1_)
         {
             for (label mi = 1; mi < nMoments_; mi++)
             {
@@ -507,11 +501,7 @@ void Foam::monoKineticQuadratureApproximation::updateAllQuadrature()
     {
         forAll(m0Bf[patchi], facei)
         {
-            if
-            (
-                m0Bf[patchi][facei] < 0
-             && mag(m0Bf[patchi][facei]) < minM0_
-            )
+            if (m0Bf[patchi][facei] < 0 && mag(m0Bf[patchi][facei]) < minM0_)
             {
                 forAll(moments_, mi)
                 {
@@ -549,22 +539,14 @@ bool Foam::monoKineticQuadratureApproximation::updateAllLocalQuadrature
 
         //- Make sure moments are below 0 before checking if they
     //  are SMALL enough to be neglected
-    if
-    (
-        m0[celli] < 0
-        && mag(m0[celli]) < minM0_
-    )
+    if (m0[celli] < 0 && mag(m0[celli]) < minM0_)
     {
         forAll(moments_, mi)
         {
             moments_[mi][celli] = Zero;
         }
     }
-    else if
-    (
-        moments_[1][celli] < 0
-        && mag(moments_[1][celli]) < minM1_
-    )
+    else if (moments_[1][celli] < 0 && mag(moments_[1][celli]) < minM1_)
     {
         for (label mi = 1; mi < nMoments_; mi++)
         {
@@ -651,12 +633,8 @@ void Foam::monoKineticQuadratureApproximation::updateLocalVelocities
         {
             if (nonZeroNodes[nodei])
             {
-                x[nodej] =
-                    nodes_()[nodei].abscissae()[0][celli];
-
-                invR[nodej][nodej] =
-                    1.0/nodes_()[nodei].weight()[celli];
-
+                x[nodej] = nodes_()[nodei].abscissae()[0][celli];
+                invR[nodej][nodej] = 1.0/nodes_()[nodei].weight()[celli];
                 nodej++;
             }
         }
