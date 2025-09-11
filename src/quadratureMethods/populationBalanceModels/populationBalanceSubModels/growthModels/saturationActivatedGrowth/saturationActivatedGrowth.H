@@ -30,7 +30,7 @@ License
     along with OpenFOAM.  If not, see <http://www.gnu.org/licenses/>.
 
 Class
-    Foam::populationBalanceSubModels::growthModels::constantGrowth
+    Foam::populationBalanceSubModels::growthModels::saturationActivatedGrowth
 
 Description
     Constant growth model, which is only activated when local supersaturation is present. 
@@ -40,14 +40,14 @@ Description
     be 1.0e-10 and 1.0e10.
 
 SourceFiles
-    constantGrowth.C
+    saturationActivatedGrowth.C
 
 \*---------------------------------------------------------------------------*/
 
 #ifndef saturationActivatedGrowth_H
 #define saturationActivatedGrowth_H
 
-#include "saturationActivatedGrowth.H"
+#include "growthModel.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
@@ -92,7 +92,7 @@ public:
     // Constructors
 
         //- Construct from components
-        constantGrowth
+        saturationActivatedGrowth
         (
             const dictionary& dict,
             const fvMesh& mesh
@@ -100,7 +100,7 @@ public:
 
 
     //- Destructor
-    virtual ~constantGrowth();
+    virtual ~saturationActivatedGrowth();
 
 
     // Member Functions

@@ -56,7 +56,7 @@ namespace growthModels
 
 // * * * * * * * * * * * * * * * * Constructors  * * * * * * * * * * * * * * //
 
-Foam::populationBalanceSubModels::growthModels::constantGrowth
+Foam::populationBalanceSubModels::growthModels::saturationActivatedGrowth
 ::saturationActivatedGrowth
 (
     const dictionary& dict,
@@ -66,7 +66,7 @@ Foam::populationBalanceSubModels::growthModels::constantGrowth
     growthModel(dict, mesh),
     minAbscissa_(dict.lookupOrDefault("minAbscissa", scalar(0))),
     maxAbscissa_(dict.lookupOrDefault("maxAbscissa", GREAT)),
-    saturationWater_(mesh.lookupObject<volScalarField>(
+    saturationWater_(mesh.lookupObjectRef<volScalarField>(
         word("S_water")
     ))
 {}
@@ -74,15 +74,15 @@ Foam::populationBalanceSubModels::growthModels::constantGrowth
 
 // * * * * * * * * * * * * * * * * Destructor  * * * * * * * * * * * * * * * //
 
-Foam::populationBalanceSubModels::growthModels::constantGrowth
-::~constantGrowth()
+Foam::populationBalanceSubModels::growthModels::saturationActivatedGrowth
+::~saturationActivatedGrowth()
 {}
 
 
 // * * * * * * * * * * * * * * * Member Functions  * * * * * * * * * * * * * //
 
 Foam::scalar
-Foam::populationBalanceSubModels::growthModels::constantGrowth::Kg
+Foam::populationBalanceSubModels::growthModels::saturationActivatedGrowth::Kg
 (
     const scalar& abscissa,
     const bool lengthBased,
