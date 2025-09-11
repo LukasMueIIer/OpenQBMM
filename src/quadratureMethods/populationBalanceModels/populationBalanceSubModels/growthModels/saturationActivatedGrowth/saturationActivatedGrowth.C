@@ -91,7 +91,8 @@ Foam::populationBalanceSubModels::growthModels::constantGrowth::Kg
 {
     return Cg_.value()
           *pos0(abscissa - minAbscissa_)
-          *neg0(abscissa - maxAbscissa_);
+          *neg0(abscissa - maxAbscissa_)
+          *pos0(saturationWater_[environment] - 1); //only activate if sat>1
 }
 
 // ************************************************************************* //
