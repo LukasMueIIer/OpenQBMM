@@ -129,7 +129,7 @@ Foam::populationBalanceSubModels::growthModel::phaseSpaceConvection
 
             scalar gSourcei =
                 n
-               *Kg(d, lengthBased)
+               *Kg(d, lengthBased, celli)
                *sizeOrder
                *pow(bAbscissa, sizeOrder - 1);
 
@@ -173,7 +173,7 @@ Foam::populationBalanceSubModels::growthModel::phaseSpaceConvection
 
             scalar gSourcei =
                 n
-               *Kg(d, lengthBased)
+               *Kg(d, lengthBased, celli)
                *sizeOrder
                *pow(bAbscissa, sizeOrder - 1);
 
@@ -253,7 +253,7 @@ Foam::populationBalanceSubModels::growthModel::phaseSpaceConvection
             node.n(celli, node.primaryWeight()[celli], bAbscissa);
 
         scalar gSourcei =
-            n*Kg(d, lengthBased)*sizeOrder*pow(bAbscissa, sizeOrder - 1);
+            n*Kg(d, lengthBased, celli)*sizeOrder*pow(bAbscissa, sizeOrder - 1);
 
         forAll(scalarIndexes, nodei)
         {
