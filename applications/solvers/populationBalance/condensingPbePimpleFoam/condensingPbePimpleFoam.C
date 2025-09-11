@@ -73,6 +73,7 @@ int main(int argc, char *argv[])
     #include "setInitialDeltaT.H"
     #include "createWaterField.H"
 
+
     turbulence->validate();
 
     // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
@@ -111,6 +112,8 @@ Info<< "\nStarting time loop\n" << endl;
 
         rho = thermo.rho();
         populationBalance->solve();
+        
+        #include "waterTransportEquation.H"
 
         runTime.write();
         runTime.printExecutionTime(Info);
