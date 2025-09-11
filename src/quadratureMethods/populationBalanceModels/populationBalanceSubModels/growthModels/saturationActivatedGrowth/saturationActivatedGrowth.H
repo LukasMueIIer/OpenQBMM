@@ -76,8 +76,8 @@ private:
         //- Maximum value of the abscissa to apply the model
         scalar maxAbscissa_;
 
-        //- Access to the saturation field;
-        volScalarField& saturationWater_;
+        //- Access to the saturation field, moved to Kg;
+        //volScalarField& saturationWater_;
 
 
 
