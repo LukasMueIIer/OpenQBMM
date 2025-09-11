@@ -71,6 +71,7 @@ int main(int argc, char *argv[])
     #include "createTimeControls.H"
     #include "compressibleCourantNo.H"
     #include "setInitialDeltaT.H"
+    #include "createWaterField.H"
 
     turbulence->validate();
 
