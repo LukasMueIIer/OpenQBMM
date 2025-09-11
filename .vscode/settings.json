@@ -3,6 +3,10 @@
         "*.C": "cpp",
         "*.H": "cpp",
         "limits": "cpp",
-        "ostream": "cpp"
+        "ostream": "cpp",
+        "optional": "cpp",
+        "system_error": "cpp",
+        "regex": "cpp",
+        "__node_handle": "cpp"
     }
 }

@@ -65,7 +65,9 @@ Foam::populationBalanceSubModels::growthModels::saturationActivatedGrowth
 :
     growthModel(dict, mesh),
     minAbscissa_(dict.lookupOrDefault("minAbscissa", scalar(0))),
-    maxAbscissa_(dict.lookupOrDefault("maxAbscissa", GREAT))
+    maxAbscissa_(dict.lookupOrDefault("maxAbscissa", GREAT)),
+    lookedUpSaturation(0),
+    saturationWater_(nullptr)
 {}
 
 
@@ -78,6 +80,20 @@ Foam::populationBalanceSubModels::growthModels::saturationActivatedGrowth
 
 // * * * * * * * * * * * * * * * Member Functions  * * * * * * * * * * * * * //
 
+void
+Foam::populationBalanceSubModels::growthModels::saturationActivatedGrowth::lookUpSaturation
+(
+
+) const
+{
+    saturationWater_.reset(
+        mesh_.getObjectPtr<volScalarField>(
+            word("S_water")
+        )
+    );
+    lookedUpSaturation = 1;
+}
+
 Foam::scalar
 Foam::populationBalanceSubModels::growthModels::saturationActivatedGrowth::Kg
 (
@@ -85,14 +101,16 @@ Foam::populationBalanceSubModels::growthModels::saturationActivatedGrowth::Kg
     const bool lengthBased,
     const label environment
 ) const
-{
-    volScalarField& saturationWater_ = mesh_.lookupObjectRef<volScalarField>(
-        word("S_water")
-    );
+{   
+    if(lookedUpSaturation == 0)
+    {
+       lookUpSaturation(); 
+    }
+    
     return Cg_.value()
           *pos0(abscissa - minAbscissa_)
           *neg0(abscissa - maxAbscissa_)
-          *pos0(saturationWater_[environment] - 1); //only activate if sat>1
+          *pos0((*saturationWater_)[environment] - 1); //only activate if sat>1
 }
 
 // ************************************************************************* //

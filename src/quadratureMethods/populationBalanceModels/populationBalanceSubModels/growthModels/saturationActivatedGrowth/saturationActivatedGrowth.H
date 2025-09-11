@@ -77,10 +77,10 @@ private:
         scalar maxAbscissa_;
 
         //- Access to the saturation field, moved to Kg;
-        //volScalarField& saturationWater_;
+        mutable autoPtr<volScalarField> saturationWater_;
+        mutable label lookedUpSaturation;        //indicator if we allready performed the lookup
 
-
-
+        void lookUpSaturation() const; //function to look up saturation
 
 
 public:
