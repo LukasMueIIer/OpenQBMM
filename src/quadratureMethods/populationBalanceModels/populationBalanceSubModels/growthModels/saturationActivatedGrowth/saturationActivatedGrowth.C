@@ -100,6 +100,10 @@ Foam::populationBalanceSubModels::growthModels::saturationActivatedGrowth::lookU
     );
 
     lookedUpSaturation = 1;
+
+
+Info << "Pulled saturation and absortion Field" << nl << endl;
+
 }
 
 Foam::scalar
@@ -248,6 +252,10 @@ Foam::populationBalanceSubModels::growthModels::saturationActivatedGrowth::calcu
     const scalarQuadratureApproximation& quadrature
 )
 {
+
+
+    Info << "Calculating Sink Term: Called Function Version 1" << nl << endl;
+
     if(lookedUpSaturation == 0)
     {
        lookUpSaturation(); 
@@ -266,6 +274,8 @@ Foam::populationBalanceSubModels::growthModels::saturationActivatedGrowth::calcu
     label sizeOrder = momentOrder[sizeIndex];
     bool lengthBased = nodes[0].lengthBased();
     bool volumeFraction = nodes[0].useVolumeFraction();
+    
+    Info << "Point 0" << nl << endl;
 
     if (volumeFraction)
     {
@@ -283,6 +293,8 @@ Foam::populationBalanceSubModels::growthModels::saturationActivatedGrowth::calcu
     {
         (*waterAbsorption_)[celli] = gSource;
     }
+    
+    Info << "Point 1" << nl << endl;
 
     const labelList& scalarIndexes = nodes[0].scalarIndexes();
 
@@ -324,6 +336,8 @@ Foam::populationBalanceSubModels::growthModels::saturationActivatedGrowth::calcu
         (*waterAbsorption_)[celli] = gSource;
     }
 
+    Info << "Point 2" << nl << endl;
+    
     forAll(nodes, pNodeI)
     {
         const volScalarNode& node = nodes[pNodeI];
@@ -366,6 +380,8 @@ Foam::populationBalanceSubModels::growthModels::saturationActivatedGrowth::calcu
         }
     }
 
+    Info << "Point E" << nl << endl;
+    
     (*waterAbsorption_)[celli] = gSource;
 }
 
@@ -378,6 +394,9 @@ Foam::populationBalanceSubModels::growthModels::saturationActivatedGrowth::calcu
     const velocityQuadratureApproximation& quadrature
 )
 {
+    
+    Info << "Calculating Sink Term: Called Function Version 2" << nl << endl;
+    
     if(lookedUpSaturation == 0)
     {
        lookUpSaturation(); 
