@@ -11,7 +11,7 @@ volScalarField DEff
 
 fvScalarMatrix waterMassFractionTransport
 (
-    fvm::ddt(rho, massFractionWater) + fvm::div(phi, massFractionWater) - fvm::laplacian(DEff * rho, massFractionWater)
+    fvm::ddt(rho, massFractionWater) + fvm::div(phi, massFractionWater) - fvm::laplacian(DEff * rho, massFractionWater) + waterAbsorption
 );
 
 waterMassFractionTransport.relax();

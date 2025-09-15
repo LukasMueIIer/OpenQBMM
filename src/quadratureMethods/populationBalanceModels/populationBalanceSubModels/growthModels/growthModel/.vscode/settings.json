@@ -1,0 +1,6 @@
+{
+    "files.associations": {
+        "newGrowthModel.C": "cpp",
+        "growthModel.C": "cpp"
+    }
+}

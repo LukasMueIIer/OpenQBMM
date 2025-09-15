@@ -64,3 +64,19 @@ volScalarField pSaturationWater
     ),
     rho * massFractionWater * RVapour * T
 );
+
+volScalarField waterAbsorption
+(
+    IOobject
+    (
+        "waterAbsorption",
+        runTime.timeName(),
+        mesh,
+        IOobject::NO_READ,
+        IOobject::AUTO_WRITE
+    ),
+    mesh,
+    dimensionedScalar(dimDensity/dimTime,0)
+);
+
+

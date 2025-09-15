@@ -81,7 +81,25 @@ private:
         mutable label lookedUpSaturation;        //indicator if we allready performed the lookup
 
         void lookUpSaturation() const; //function to look up saturation
+        
+        //Access to the sink term field of the Water Transport
+        mutable autoPtr<volScalarField> waterAbsorption_;
+        //will be looked up at the same time as the Saturation, so use same flag
 
+        void calculateSinkTerm
+        (
+            const labelList& momentOrder,
+            const label celli,
+            const scalarQuadratureApproximation& quadrature
+        );
+
+        void calculateSinkTerm
+        (
+            const labelList& momentOrder,
+            const label celli,
+            const velocityQuadratureApproximation& quadrature
+        ); 
+       
 
 public:
 
@@ -106,12 +124,29 @@ public:
     // Member Functions
 
         //- Growth model
-        virtual scalar Kg
+        scalar Kg
         (
             const scalar& abscissa,
             const bool lengthBased,
             const label environment = 0
         ) const;
+
+        //Overwrite the Base Class Functions
+        scalar phaseSpaceConvection
+        (
+            const labelList& momentOrder,
+            const label celli,
+            const scalarQuadratureApproximation& quadrature
+        );
+
+        //- Return phase space convection
+        scalar phaseSpaceConvection
+        (
+            const labelList& momentOrder,
+            const label celli,
+            const velocityQuadratureApproximation& quadrature
+        );
+
 
 };
 
