@@ -129,6 +129,11 @@ Foam::populationBalanceSubModels::growthModels::saturationActivatedGrowth::phase
     const scalarQuadratureApproximation& quadrature
 )
 {
+    if(lookedUpSaturation == 0)
+    {
+       lookUpSaturation(); 
+    }
+
     const PtrList<volScalarNode>& nodes = quadrature.nodes();
     label sizeIndex = nodes[0].sizeIndex();
 
@@ -184,6 +189,10 @@ Foam::populationBalanceSubModels::growthModels::saturationActivatedGrowth::phase
     const velocityQuadratureApproximation& quadrature
 )
 {
+    if(lookedUpSaturation == 0)
+    {
+       lookUpSaturation(); 
+    }
 
     const PtrList<volVelocityNode>& nodes = quadrature.nodes();
     label sizeIndex = nodes[0].sizeIndex();
@@ -239,6 +248,11 @@ Foam::populationBalanceSubModels::growthModels::saturationActivatedGrowth::calcu
     const scalarQuadratureApproximation& quadrature
 )
 {
+    if(lookedUpSaturation == 0)
+    {
+       lookUpSaturation(); 
+    }
+
     scalar gSource(0);
 
     const PtrList<volScalarNode>& nodes = quadrature.nodes();
@@ -364,6 +378,11 @@ Foam::populationBalanceSubModels::growthModels::saturationActivatedGrowth::calcu
     const velocityQuadratureApproximation& quadrature
 )
 {
+    if(lookedUpSaturation == 0)
+    {
+       lookUpSaturation(); 
+    }
+
     scalar gSource(0);
 
     const PtrList<volVelocityNode>& nodes = quadrature.nodes();
