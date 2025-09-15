@@ -95,7 +95,7 @@ Foam::populationBalanceSubModels::growthModels::saturationActivatedGrowth::lookU
     
     waterAbsorption_.reset(
         mesh_.getObjectPtr<volScalarField>(
-            word("waterAbsoption")
+            word("waterAbsorption")
         )
     );
 
@@ -122,7 +122,7 @@ Foam::populationBalanceSubModels::growthModels::saturationActivatedGrowth::Kg
     return Cg_.value()
           *pos0(abscissa - minAbscissa_)
           *neg0(abscissa - maxAbscissa_)
-          *pos0((*saturationWater_)[environment] - 1); //only activate if sat>1
+          *pos0((*saturationWater_)[environment] - 1.0); //only activate if sat>1
 }
 
 Foam::scalar
@@ -253,9 +253,6 @@ Foam::populationBalanceSubModels::growthModels::saturationActivatedGrowth::calcu
 )
 {
 
-
-    Info << "Calculating Sink Term: Called Function Version 1" << nl << endl;
-
     if(lookedUpSaturation == 0)
     {
        lookUpSaturation(); 
@@ -268,6 +265,7 @@ Foam::populationBalanceSubModels::growthModels::saturationActivatedGrowth::calcu
 
     if (sizeIndex == -1)
     {
+        gSource = gSource*pos0(gSource);
         (*waterAbsorption_)[celli] = gSource;
     }
 
@@ -275,7 +273,6 @@ Foam::populationBalanceSubModels::growthModels::saturationActivatedGrowth::calcu
     bool lengthBased = nodes[0].lengthBased();
     bool volumeFraction = nodes[0].useVolumeFraction();
     
-    Info << "Point 0" << nl << endl;
 
     if (volumeFraction)
     {
@@ -291,10 +288,10 @@ Foam::populationBalanceSubModels::growthModels::saturationActivatedGrowth::calcu
 
     if (sizeOrder < 1)
     {
+        gSource = gSource*pos0(gSource);
         (*waterAbsorption_)[celli] = gSource;
     }
     
-    Info << "Point 1" << nl << endl;
 
     const labelList& scalarIndexes = nodes[0].scalarIndexes();
 
@@ -313,7 +310,7 @@ Foam::populationBalanceSubModels::growthModels::saturationActivatedGrowth::calcu
                 node.n(celli, node.primaryWeight()[celli], bAbscissa);
 
             scalar gSourcei =
-                n
+                0.5*3.14*997*n
                *Kg(d, lengthBased, celli)
                *pow(bAbscissa, 2);
 
@@ -333,10 +330,10 @@ Foam::populationBalanceSubModels::growthModels::saturationActivatedGrowth::calcu
             gSource += gSourcei;
         }
 
+        gSource = gSource*pos0(gSource);
         (*waterAbsorption_)[celli] = gSource;
     }
 
-    Info << "Point 2" << nl << endl;
     
     forAll(nodes, pNodeI)
     {
@@ -358,7 +355,7 @@ Foam::populationBalanceSubModels::growthModels::saturationActivatedGrowth::calcu
                *node.secondaryWeights()[sizeIndex][sNodei][celli];
 
             scalar gSourcei =
-                n
+                0.5*3.14*997*n
                *Kg(d, lengthBased, celli)
                *pow(bAbscissa, 2);
 
@@ -380,8 +377,8 @@ Foam::populationBalanceSubModels::growthModels::saturationActivatedGrowth::calcu
         }
     }
 
-    Info << "Point E" << nl << endl;
     
+    gSource = gSource*pos0(gSource);
     (*waterAbsorption_)[celli] = gSource;
 }
 
@@ -395,7 +392,6 @@ Foam::populationBalanceSubModels::growthModels::saturationActivatedGrowth::calcu
 )
 {
     
-    Info << "Calculating Sink Term: Called Function Version 2" << nl << endl;
     
     if(lookedUpSaturation == 0)
     {
@@ -409,6 +405,7 @@ Foam::populationBalanceSubModels::growthModels::saturationActivatedGrowth::calcu
 
     if (sizeIndex == -1)
     {
+        gSource = gSource*pos0(gSource);
       (*waterAbsorption_)[celli] = gSource;
     }
 
@@ -430,6 +427,7 @@ Foam::populationBalanceSubModels::growthModels::saturationActivatedGrowth::calcu
 
     if (sizeOrder < 1)
     {
+        gSource = gSource*pos0(gSource);
         (*waterAbsorption_)[celli] = gSource;
     }
 
@@ -449,7 +447,7 @@ Foam::populationBalanceSubModels::growthModels::saturationActivatedGrowth::calcu
             node.n(celli, node.primaryWeight()[celli], bAbscissa);
 
         scalar gSourcei =
-            n*Kg(d, lengthBased, celli)*pow(bAbscissa, 2);
+            0.5*3.14*997*n*Kg(d, lengthBased, celli)*pow(bAbscissa, 2);
 
         forAll(scalarIndexes, nodei)
         {
@@ -477,6 +475,7 @@ Foam::populationBalanceSubModels::growthModels::saturationActivatedGrowth::calcu
         gSource += gSourcei;
     }
 
+       gSource = gSource*pos0(gSource);
     (*waterAbsorption_)[celli] = gSource;
 }
 

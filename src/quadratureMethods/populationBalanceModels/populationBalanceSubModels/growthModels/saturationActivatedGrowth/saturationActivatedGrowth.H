@@ -77,13 +77,13 @@ private:
         scalar maxAbscissa_;
 
         //- Access to the saturation field, moved to Kg;
-        mutable autoPtr<volScalarField> saturationWater_;
+        mutable refPtr<volScalarField> saturationWater_;
         mutable label lookedUpSaturation;        //indicator if we allready performed the lookup
 
         void lookUpSaturation() const; //function to look up saturation
         
         //Access to the sink term field of the Water Transport
-        mutable autoPtr<volScalarField> waterAbsorption_;
+        mutable refPtr<volScalarField> waterAbsorption_;
         //will be looked up at the same time as the Saturation, so use same flag
 
         void calculateSinkTerm
