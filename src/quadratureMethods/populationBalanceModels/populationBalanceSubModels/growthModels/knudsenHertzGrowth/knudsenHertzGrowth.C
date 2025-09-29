@@ -30,7 +30,7 @@ License
 
 \*---------------------------------------------------------------------------*/
 
-#include "saturationActivatedGrowth.H"
+#include "knudsenHertzGrowth.H"
 #include "addToRunTimeSelectionTable.H"
 
 // * * * * * * * * * * * * * * Static Data Members * * * * * * * * * * * * * //
@@ -68,7 +68,10 @@ Foam::populationBalanceSubModels::growthModels::saturationActivatedGrowth
     maxAbscissa_(dict.lookupOrDefault("maxAbscissa", GREAT)),
     lookedUpSaturation(0),
     saturationWater_(nullptr),
-    waterAbsorption_(nullptr)
+    waterAbsorption_(nullptr),
+    pVapour_(nullptr),
+    pSaturationWater_(nullptr),
+    alphaCondensation_(dict.lookupOrDefault("alphaCondensation", scalar(1)))
 {}
 
 
@@ -97,12 +100,25 @@ Foam::populationBalanceSubModels::growthModels::saturationActivatedGrowth::lookU
         mesh_.getObjectPtr<volScalarField>(
             word("waterAbsorption")
         )
+    ); 
+    
+    pVapour_.reset(
+        mesh_.getObjectPtr<volScalarField>(
+            word("pVapour")
+        )
     );
+ 
+    pSaturationWater_.reset(
+        mesh_.getObjectPtr<volScalarField>(
+            word("pSaturationWater")
+        )
+    );
+
 
     lookedUpSaturation = 1;
 
 
-Info << "Pulled saturation and absortion Field" << nl << endl;
+Info << "Pulled saturation and absortion Field, also saturation pressures and vapour pressure" << nl << endl;
 
 }
 

@@ -76,8 +76,13 @@ private:
         //- Maximum value of the abscissa to apply the model
         scalar maxAbscissa_;
 
+        //- condensation coefficient
+        scalar alphaCondensation_;
+
         //- Access to the saturation field, moved to Kg;
         mutable refPtr<volScalarField> saturationWater_;
+        mutable refPtr<volScalarField> pVapour_; //Vaper pressure of water
+        mutable refPtr<volScalarField> pSaturationWater_; //Saturation Vapour Pressure wrt. liquid Water
         mutable label lookedUpSaturation;        //indicator if we allready performed the lookup
 
         void lookUpSaturation() const; //function to look up saturation
