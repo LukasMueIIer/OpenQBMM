@@ -79,10 +79,14 @@ private:
         //- condensation coefficient
         scalar alphaCondensation_;
 
+        //- gas constant of water vapour
+        scalar RVapour_;
+
         //- Access to the saturation field, moved to Kg;
         mutable refPtr<volScalarField> saturationWater_;
         mutable refPtr<volScalarField> pVapour_; //Vaper pressure of water
         mutable refPtr<volScalarField> pSaturationWater_; //Saturation Vapour Pressure wrt. liquid Water
+        mutable refPtr<volScalarField> T_; //Temperature Field
         mutable label lookedUpSaturation;        //indicator if we allready performed the lookup
 
         void lookUpSaturation() const; //function to look up saturation

@@ -71,7 +71,9 @@ Foam::populationBalanceSubModels::growthModels::saturationActivatedGrowth
     waterAbsorption_(nullptr),
     pVapour_(nullptr),
     pSaturationWater_(nullptr),
-    alphaCondensation_(dict.lookupOrDefault("alphaCondensation", scalar(1)))
+    T_(nullptr),
+    alphaCondensation_(dict.lookupOrDefault("alphaCondensation", scalar(1))),
+    RVapour_(dict.lookupOrDefault("RVapour", scalar(461.5)))
 {}
 
 
@@ -113,6 +115,12 @@ Foam::populationBalanceSubModels::growthModels::saturationActivatedGrowth::lookU
             word("pSaturationWater")
         )
     );
+ 
+    T_.reset(
+        mesh_.getObjectPtr<volScalarField>(
+            word("T")
+        )
+    );
 
 
     lookedUpSaturation = 1;
@@ -135,10 +143,10 @@ Foam::populationBalanceSubModels::growthModels::saturationActivatedGrowth::Kg
        lookUpSaturation(); 
     }
     
-    return Cg_.value()
-          *pos0(abscissa - minAbscissa_)
-          *neg0(abscissa - maxAbscissa_)
-          *pos0((*saturationWater_)[environment] - 1.0); //only activate if sat>1
+    return 2 * alphaCondensation_
+          / ((*pVapour_)[environment] / (RVapour_ * (*T_)[environment]) )
+          * pos0((*pVapour_)[environment] - (*pSaturationWater_)[environment])
+          / sqrt( 2 * 3.14 * RVapour_ * ((*T_)[environment]) ); //only activate if sat>1
 }
 
 Foam::scalar
