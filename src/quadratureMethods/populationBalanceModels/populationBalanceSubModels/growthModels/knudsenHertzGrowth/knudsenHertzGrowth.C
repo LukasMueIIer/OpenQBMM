@@ -41,12 +41,12 @@ namespace populationBalanceSubModels
 {
 namespace growthModels
 {
-    defineTypeNameAndDebug(saturationActivatedGrowth, 0);
+    defineTypeNameAndDebug(knudsenHertzGrowth, 0);
 
     addToRunTimeSelectionTable
     (
         growthModel,
-        saturationActivatedGrowth,
+        knudsenHertzGrowth,
         dictionary
     );
 }
@@ -56,8 +56,8 @@ namespace growthModels
 
 // * * * * * * * * * * * * * * * * Constructors  * * * * * * * * * * * * * * //
 
-Foam::populationBalanceSubModels::growthModels::saturationActivatedGrowth
-::saturationActivatedGrowth
+Foam::populationBalanceSubModels::growthModels::knudsenHertzGrowth
+::knudsenHertzGrowth
 (
     const dictionary& dict,
     const fvMesh& mesh
@@ -79,15 +79,15 @@ Foam::populationBalanceSubModels::growthModels::saturationActivatedGrowth
 
 // * * * * * * * * * * * * * * * * Destructor  * * * * * * * * * * * * * * * //
 
-Foam::populationBalanceSubModels::growthModels::saturationActivatedGrowth
-::~saturationActivatedGrowth()
+Foam::populationBalanceSubModels::growthModels::knudsenHertzGrowth
+::~knudsenHertzGrowth()
 {}
 
 
 // * * * * * * * * * * * * * * * Member Functions  * * * * * * * * * * * * * //
 
 void
-Foam::populationBalanceSubModels::growthModels::saturationActivatedGrowth::lookUpSaturation
+Foam::populationBalanceSubModels::growthModels::knudsenHertzGrowth::lookUpSaturation
 (
 
 ) const
@@ -115,7 +115,7 @@ Foam::populationBalanceSubModels::growthModels::saturationActivatedGrowth::lookU
             word("pSaturationWater")
         )
     );
- 
+
     T_.reset(
         mesh_.getObjectPtr<volScalarField>(
             word("T")
@@ -131,7 +131,7 @@ Info << "Pulled saturation and absortion Field, also saturation pressures and va
 }
 
 Foam::scalar
-Foam::populationBalanceSubModels::growthModels::saturationActivatedGrowth::Kg
+Foam::populationBalanceSubModels::growthModels::knudsenHertzGrowth::Kg
 (
     const scalar& abscissa,
     const bool lengthBased,
@@ -143,14 +143,21 @@ Foam::populationBalanceSubModels::growthModels::saturationActivatedGrowth::Kg
        lookUpSaturation(); 
     }
     
-    return 2 * alphaCondensation_
-          / ((*pVapour_)[environment] / (RVapour_ * (*T_)[environment]) )
-          * pos0((*pVapour_)[environment] - (*pSaturationWater_)[environment])
-          / sqrt( 2 * 3.14 * RVapour_ * ((*T_)[environment]) ); //only activate if sat>1
+    scalar rhoVapour = (*pVapour_)[environment] / (RVapour_ * (*T_)[environment]);
+    rhoVapour = rhoVapour * pos(rhoVapour) + SMALL;
+
+    scalar deltaPVapour = (*pVapour_)[environment] - (*pSaturationWater_)[environment];
+    deltaPVapour = deltaPVapour * pos(deltaPVapour);   //Preventing evaporation
+
+
+    return alphaCondensation_
+          / rhoVapour
+          * deltaPVapour
+          / sqrt( 2 * 3.14 * RVapour_ * ((*T_)[environment]));
 }
 
 Foam::scalar
-Foam::populationBalanceSubModels::growthModels::saturationActivatedGrowth::phaseSpaceConvection
+Foam::populationBalanceSubModels::growthModels::knudsenHertzGrowth::phaseSpaceConvection
 (
     const labelList& momentOrder,
     const label celli,
@@ -210,7 +217,7 @@ Foam::populationBalanceSubModels::growthModels::saturationActivatedGrowth::phase
 
 
 Foam::scalar
-Foam::populationBalanceSubModels::growthModels::saturationActivatedGrowth::phaseSpaceConvection
+Foam::populationBalanceSubModels::growthModels::knudsenHertzGrowth::phaseSpaceConvection
 (
     const labelList& momentOrder,
     const label celli,
@@ -269,7 +276,7 @@ Foam::populationBalanceSubModels::growthModels::saturationActivatedGrowth::phase
 }
 
 void
-Foam::populationBalanceSubModels::growthModels::saturationActivatedGrowth::calculateSinkTerm
+Foam::populationBalanceSubModels::growthModels::knudsenHertzGrowth::calculateSinkTerm
 (
     const labelList& momentOrder,
     const label celli,
@@ -408,7 +415,7 @@ Foam::populationBalanceSubModels::growthModels::saturationActivatedGrowth::calcu
 
 
 void
-Foam::populationBalanceSubModels::growthModels::saturationActivatedGrowth::calculateSinkTerm
+Foam::populationBalanceSubModels::growthModels::knudsenHertzGrowth::calculateSinkTerm
 (
     const labelList& momentOrder,
     const label celli,

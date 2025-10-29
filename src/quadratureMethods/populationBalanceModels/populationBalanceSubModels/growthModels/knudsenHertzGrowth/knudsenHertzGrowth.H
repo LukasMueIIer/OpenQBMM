@@ -30,7 +30,7 @@ License
     along with OpenFOAM.  If not, see <http://www.gnu.org/licenses/>.
 
 Class
-    Foam::populationBalanceSubModels::growthModels::saturationActivatedGrowth
+    Foam::populationBalanceSubModels::growthModels::knudsenHertzGrowth
 
 Description
     Constant growth model, which is only activated when local supersaturation is present. 
@@ -40,12 +40,12 @@ Description
     be 1.0e-10 and 1.0e10.
 
 SourceFiles
-    saturationActivatedGrowth.C
+    knudsenHertzGrowth.C
 
 \*---------------------------------------------------------------------------*/
 
-#ifndef saturationActivatedGrowth_H
-#define saturationActivatedGrowth_H
+#ifndef knudsenHertzGrowth_H
+#define knudsenHertzGrowth_H
 
 #include "growthModel.H"
 
@@ -59,10 +59,10 @@ namespace growthModels
 {
 
 /*---------------------------------------------------------------------------*\
-                    Class saturationActivatedGrowth Declaration
+                    Class knudsenHertzGrowth Declaration
 \*---------------------------------------------------------------------------*/
 
-class saturationActivatedGrowth
+class knudsenHertzGrowth
 :
     public growthModel
 {
@@ -113,13 +113,13 @@ private:
 public:
 
         //- Runtime type information
-        TypeName("saturationActivatedGrowth");
+        TypeName("knudsenHertzGrowth");
 
 
     // Constructors
 
         //- Construct from components
-        saturationActivatedGrowth
+        knudsenHertzGrowth
         (
             const dictionary& dict,
             const fvMesh& mesh
@@ -127,7 +127,7 @@ public:
 
 
     //- Destructor
-    virtual ~saturationActivatedGrowth();
+    virtual ~knudsenHertzGrowth();
 
 
     // Member Functions

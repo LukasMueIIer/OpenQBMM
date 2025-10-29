@@ -36,6 +36,7 @@ volScalarField saturationWater
     dimless
 );
 
+#include "updateWaterSaturation.H"
 
 Info << "Creating Vapour Pressure Field" << nl << endl;
 volScalarField pVapour
