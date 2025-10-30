@@ -37,7 +37,7 @@ pSaturationWater =
 
 Info << "Updating Vapour Pressures" << nl << endl;
 
-pVapour = rho * massFractionWater * RVapour * T;
+pVapour = p * massFractionWater * RVapour / RAir;
 
 saturationWater = pVapour / pSaturationWater;
 

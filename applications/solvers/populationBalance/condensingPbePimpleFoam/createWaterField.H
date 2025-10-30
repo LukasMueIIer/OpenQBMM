@@ -15,6 +15,7 @@ volScalarField massFractionWater
 volScalarField& T = thermo.T();
 
 dimensionedScalar PrtVapourH2O("PrtVapourH2O",dimless,0.7);
+dimensionedScalar RAir("RAir",dimGasConstant,287);
 dimensionedScalar RVapour("RVapour",dimGasConstant,461.6);
 dimensionedScalar fracT("fractTvapour",dimTemperature,373.16);  //Reference Temperature for saturation
 dimensionedScalar capPressure("saturationPressureCap",dimPressure,1e5); //Used to cap the saturation pressure
@@ -47,7 +48,7 @@ volScalarField pVapour
         IOobject::NO_READ,
         IOobject::AUTO_WRITE
     ),
-    rho * massFractionWater * RVapour * T
+    p * massFractionWater * RVapour / RAir
 );
 
 Info << "Creating Saturation Pressure wrt. Water Field" << nl << endl;
@@ -61,7 +62,7 @@ volScalarField pSaturationWater
         IOobject::NO_READ,
         IOobject::AUTO_WRITE
     ),
-    rho * massFractionWater * RVapour * T
+    p * massFractionWater * RVapour / RAir
 );
 
 #include "updateWaterSaturation.H"
