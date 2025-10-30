@@ -34,11 +34,4 @@ forAll(mesh.C(),cellID)
 //Calculate Saturation
 #include "updateWaterSaturation.H"
 
-//Update Vapour Pressure
-
-Info << "Updating Vapour Pressures" << nl << endl;
-
-pVapour = rho * massFractionWater * RVapour * T;
-
-saturationWater = pVapour / pSaturationWater;
 

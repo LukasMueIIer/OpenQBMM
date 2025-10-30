@@ -36,8 +36,6 @@ volScalarField saturationWater
     dimless
 );
 
-#include "updateWaterSaturation.H"
-
 Info << "Creating Vapour Pressure Field" << nl << endl;
 volScalarField pVapour
 (
@@ -47,7 +45,7 @@ volScalarField pVapour
         runTime.timeName(),
         mesh,
         IOobject::NO_READ,
-        IOobject::NO_WRITE
+        IOobject::AUTO_WRITE
     ),
     rho * massFractionWater * RVapour * T
 );
@@ -61,10 +59,12 @@ volScalarField pSaturationWater
         runTime.timeName(),
         mesh,
         IOobject::NO_READ,
-        IOobject::NO_WRITE
+        IOobject::AUTO_WRITE
     ),
     rho * massFractionWater * RVapour * T
 );
+
+#include "updateWaterSaturation.H"
 
 volScalarField waterAbsorption
 (
