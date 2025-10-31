@@ -70,6 +70,7 @@ protected:
 
         //- Moment advection
         autoPtr<univariateMomentAdvection> momentAdvection_;
+        
 
     // Protected member functions
 

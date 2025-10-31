@@ -70,6 +70,7 @@ void Foam::PDFTransportModels::steadyStateUnivariatePDFTransportModel::solve()
 
     // List of moment transport equations
     PtrList<fvScalarMatrix> momentEqns(quadrature_.nMoments());
+    
 
     // Solve moment transport equations
     forAll(quadrature_.moments(), momenti)
@@ -89,10 +90,21 @@ void Foam::PDFTransportModels::steadyStateUnivariatePDFTransportModel::solve()
         );
     }
     
+    //Relaxation Factor
+    scalar relaxation = 0;
+
     forAll (momentEqns, mEqni)
-    {
+    {   
+
+        volScalarField* m = &(quadrature_.moments()[mEqni]);
+        
+        volScalarField temp(*m); 
+        
         momentEqns[mEqni].relax();
         momentEqns[mEqni].solve();
+        
+        //m = relaxation * m + (1 - relaxation) * temp.ref();
+        *m = relaxation * (*m) + (1 - relaxation) * temp;
     }
     
     quadrature_.updateQuadrature();
