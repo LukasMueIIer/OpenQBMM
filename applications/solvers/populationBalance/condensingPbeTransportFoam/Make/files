@@ -1,0 +1,3 @@
+condensingPbeTransportFoam.C
+
+EXE = $(FOAM_MODULE_APPBIN)/condensingPbeTransportFoam
