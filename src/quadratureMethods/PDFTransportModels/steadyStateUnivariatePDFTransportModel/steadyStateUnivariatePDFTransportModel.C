@@ -91,7 +91,7 @@ void Foam::PDFTransportModels::steadyStateUnivariatePDFTransportModel::solve()
     }
     
     //Relaxation Factor
-    scalar relaxation = 0;
+    scalar relaxation = 0.3;
 
     forAll (momentEqns, mEqni)
     {   

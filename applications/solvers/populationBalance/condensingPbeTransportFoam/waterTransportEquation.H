@@ -15,7 +15,7 @@ scalar relaxationFactor(0.3);
 
 fvScalarMatrix waterMassFractionTransport
 (
-    fvm::ddt(rho, massFractionWater) + fvm::div(phi, massFractionWater) - fvm::laplacian(DEff * rho, massFractionWater) + (waterAbsorption)
+    fvm::ddt(rho, massFractionWater) + fvm::div(phi, massFractionWater) - fvm::laplacian(DEff * rho, massFractionWater)
 );
 
 waterMassFractionTransport.relax();
