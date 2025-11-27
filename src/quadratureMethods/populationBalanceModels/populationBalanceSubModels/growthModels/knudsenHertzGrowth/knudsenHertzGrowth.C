@@ -307,7 +307,6 @@ Foam::populationBalanceSubModels::growthModels::knudsenHertzGrowth::calculateSin
 
     if (volumeFraction)
     {
-        Info << "Calculated sink value is " << gSource << endl;
         if (lengthBased)
         {
             sizeOrder += 3;
@@ -364,8 +363,9 @@ Foam::populationBalanceSubModels::growthModels::knudsenHertzGrowth::calculateSin
 
         gSource = gSource*pos0(gSource);
         (*waterAbsorption_)[celli] = gSource;
+        return;
     }
-
+    
     
     forAll(nodes, pNodeI)
     {
@@ -385,7 +385,7 @@ Foam::populationBalanceSubModels::growthModels::knudsenHertzGrowth::calculateSin
             scalar n =
                 node.n(celli, node.primaryWeight()[celli], bAbscissa)
                *node.secondaryWeights()[sizeIndex][sNodei][celli];
-
+            Info << "d " << d << " bAbscissa " << bAbscissa << " n " << n << endl;
             scalar gSourcei =
                 0.5*3.14*997*n
                *Kg(d, lengthBased, celli)
@@ -411,10 +411,18 @@ Foam::populationBalanceSubModels::growthModels::knudsenHertzGrowth::calculateSin
 
     
     gSource = gSource*pos0(gSource);
+
     Info << "Calculated sink value is " << gSource << endl;
+    if(
+        gSource > 1000.0
+    ){
+        Info << "Limiting sink term from " << gSource << "to 1000.0" << endl;
+        gSource = 1000.0;
+    }
+
     (*waterAbsorption_)[celli] = gSource;
 }
-
+  
 
 void
 Foam::populationBalanceSubModels::growthModels::knudsenHertzGrowth::calculateSinkTerm
@@ -508,8 +516,16 @@ Foam::populationBalanceSubModels::growthModels::knudsenHertzGrowth::calculateSin
         gSource += gSourcei;
     }
 
-       gSource = gSource*pos0(gSource);
+    gSource = gSource*pos0(gSource);
+
     Info << "Calculated sink value is " << gSource << endl;
+    if(
+        gSource > 1000.0
+    ){
+        Info << "Limiting sink term from " << gSource << "to 1000.0" << endl;
+        gSource = 1000.0;
+    }
+
     (*waterAbsorption_)[celli] = gSource;
 }
 
