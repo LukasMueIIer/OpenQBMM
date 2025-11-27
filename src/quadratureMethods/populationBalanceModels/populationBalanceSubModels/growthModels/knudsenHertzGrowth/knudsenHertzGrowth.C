@@ -307,6 +307,7 @@ Foam::populationBalanceSubModels::growthModels::knudsenHertzGrowth::calculateSin
 
     if (volumeFraction)
     {
+        Info << "Calculated sink value is " << gSource << endl;
         if (lengthBased)
         {
             sizeOrder += 3;
@@ -410,6 +411,7 @@ Foam::populationBalanceSubModels::growthModels::knudsenHertzGrowth::calculateSin
 
     
     gSource = gSource*pos0(gSource);
+    Info << "Calculated sink value is " << gSource << endl;
     (*waterAbsorption_)[celli] = gSource;
 }
 
@@ -446,6 +448,7 @@ Foam::populationBalanceSubModels::growthModels::knudsenHertzGrowth::calculateSin
 
     if (volumeFraction)
     {
+        Info << "Triggered volume Fraction" << endl;
         if (lengthBased)
         {
             sizeOrder += 3;
@@ -507,6 +510,7 @@ Foam::populationBalanceSubModels::growthModels::knudsenHertzGrowth::calculateSin
     }
 
        gSource = gSource*pos0(gSource);
+    Info << "Calculated sink value is " << gSource << endl;
     (*waterAbsorption_)[celli] = gSource;
 }
 
