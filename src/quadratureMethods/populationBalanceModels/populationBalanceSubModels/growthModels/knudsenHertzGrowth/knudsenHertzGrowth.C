@@ -143,15 +143,13 @@ Foam::populationBalanceSubModels::growthModels::knudsenHertzGrowth::Kg
        lookUpSaturation(); 
     }
     
-    scalar rhoVapour = (*pVapour_)[environment] / (RVapour_ * (*T_)[environment]);
-    rhoVapour = rhoVapour * pos(rhoVapour) + SMALL;
+    scalar rhoLiquid = 997.0;
 
     scalar deltaPVapour = (*pVapour_)[environment] - (*pSaturationWater_)[environment];
     deltaPVapour = deltaPVapour * pos(deltaPVapour);   //Preventing evaporation
 
-
     return alphaCondensation_
-          / rhoVapour
+          / rhoLiquid
           * deltaPVapour
           / sqrt( 2 * 3.14 * RVapour_ * ((*T_)[environment]));
 }
@@ -385,12 +383,12 @@ Foam::populationBalanceSubModels::growthModels::knudsenHertzGrowth::calculateSin
             scalar n =
                 node.n(celli, node.primaryWeight()[celli], bAbscissa)
                *node.secondaryWeights()[sizeIndex][sNodei][celli];
-            Info << "d " << d << " bAbscissa " << bAbscissa << " n " << n << endl;
             scalar gSourcei =
                 0.5*3.14*997*n
                *Kg(d, lengthBased, celli)
                *pow(bAbscissa, 2);
 
+            //Info << "d " << d << " bAbscissa " << bAbscissa << " n " << n << " growth " << gSourcei << endl;
             forAll(scalarIndexes, cmpt)
             {
                 if (scalarIndexes[cmpt] != sizeIndex)
@@ -412,7 +410,7 @@ Foam::populationBalanceSubModels::growthModels::knudsenHertzGrowth::calculateSin
     
     gSource = gSource*pos0(gSource);
 
-    Info << "Calculated sink value is " << gSource << endl;
+    //Info << "Calculated sink value is " << gSource << endl;
     if(
         gSource > 1000.0
     ){
